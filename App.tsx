@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { 
   Star, 
   CheckCircle, 
@@ -107,7 +108,7 @@ const LeadForm = ({ id, title }: { id: string, title: string }) => {
       <h3 className="font-display text-2xl font-bold text-brand-black mb-4 text-center">{title}</h3>
       <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
         <input type="hidden" name="access_key" value="ef92aaa0-4aba-4d60-9f04-a789bcea685b" />
-        <input type="hidden" name="redirect" value="https://dr-phillips-krisztina.vercel.app/thankyou.html" />
+        <input type="hidden" name="redirect" value="https://dr-phillips-krisztina.vercel.app/thankyou" />
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">Név</label>
           <input required type="text" name="name" placeholder="Teljes neved" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
@@ -148,7 +149,7 @@ const ThankYouPage = () => {
       <Header />
       <div className="flex-grow flex items-center justify-center p-4">
         <div className="bg-white p-8 md:p-12 rounded-xl shadow-2xl max-w-lg text-center border-t-8 border-brand-gold">
-           <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+           <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle size={48} className="text-brand-green" />
            </div>
            <h1 className="font-display text-3xl md:text-4xl font-bold text-brand-black mb-4">
@@ -167,10 +168,7 @@ const ThankYouPage = () => {
   );
 }
 
-// 5. Main App Structure
-const App = () => {
-
-  
+const LandingPage = () => {
   // Data for sections
   const testimonials: Testimonial[] = [
     {
@@ -342,7 +340,7 @@ const App = () => {
               </div>
               <h3 className="text-xl font-bold mb-4">Mély ráncok feltöltése</h3>
               <p className="text-gray-300 leading-relaxed">
-                Azonnal kisimítjuk a nasolabialis redőt és a marionett-ráncokat, hogy az arcod ismét mosolygós legyen.
+                Azonnal kisimítjuk a nasolabialis redőt és a marionett-ráncokat, hogy az arcod ismét mosolós legyen.
               </p>
             </div>
 
