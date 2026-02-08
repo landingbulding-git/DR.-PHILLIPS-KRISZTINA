@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import { 
   Star, 
   CheckCircle, 
@@ -102,28 +101,31 @@ const Footer = () => {
 };
 
 // 3. Reusable Lead Capture Form
-const LeadForm = ({ id, title }: { id: string, title: string }) => {
+const LeadForm = ({ id, title, onSuccess }: { id: string, title: string, onSuccess: () => void }) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSuccess();
+  };
+
   return (
     <div id={id} className="bg-white p-6 md:p-8 rounded-xl shadow-2xl border-t-4 border-brand-gold">
       <h3 className="font-display text-2xl font-bold text-brand-black mb-4 text-center">{title}</h3>
-      <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
-        <input type="hidden" name="access_key" value="ef92aaa0-4aba-4d60-9f04-a789bcea685b" />
-        <input type="hidden" name="redirect" value="https://dr-phillips-krisztina.vercel.app/thankyou" />
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">Név</label>
-          <input required type="text" name="name" placeholder="Teljes neved" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
+          <input required type="text" placeholder="Teljes neved" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">Telefon</label>
-          <input required type="tel" name="phone" placeholder="+36 30 123 4567" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
+          <input required type="tel" placeholder="+36 30 123 4567" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">E-mail</label>
-          <input required type="email" name="email" placeholder="pelda@email.hu" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
+          <input required type="email" placeholder="pelda@email.hu" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition" />
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">Megjegyzés</label>
-          <textarea rows={3} name="message" placeholder="Miben segíthetünk?" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition"></textarea>
+          <textarea rows={3} placeholder="Miben segíthetünk?" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition"></textarea>
         </div>
         
         <button type="submit" className="w-full bg-brand-gold hover:bg-[#b08d4a] text-white font-bold text-lg py-4 rounded-full shadow-lg transform transition hover:-translate-y-1">
@@ -170,17 +172,16 @@ const ThankYouPage = () => {
 
 // 5. Main App Structure
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/thankyou" element={<ThankYouPage />} />
-      </Routes>
-    </Router>
-  );
-}
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-const LandingPage = () => {
+  const handleFormSuccess = () => {
+      setIsSubmitted(true);
+      window.scrollTo(0,0);
+  };
+
+  if (isSubmitted) {
+      return <ThankYouPage />;
+  }
   
   // Data for sections
   const testimonials: Testimonial[] = [
@@ -504,7 +505,7 @@ const LandingPage = () => {
             </div>
             
             <div>
-              <LeadForm id="closer-form" title="Kérem a szakorvosi konzultációt!" />
+              <LeadForm id="closer-form" title="Kérem a szakorvosi konzultációt!" onSuccess={handleFormSuccess} />
             </div>
           </div>
         </div>
@@ -521,6 +522,5 @@ const LandingPage = () => {
     </div>
   );
 };
-
 
 export default App;
