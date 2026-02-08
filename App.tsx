@@ -509,4 +509,16 @@ const LandingPage = () => {
   );
 };
 
+// 5. Main App Structure
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/thankyou" element={<ThankYouPage />} />
+      </Routes>
+    </Router>
+  );
+}
+
 export default App;
